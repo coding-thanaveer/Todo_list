@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo list</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Playpen+Sans:wght@100..800&family=Rubik+Wet+Paint&family=Vast+Shadow&display=swap" rel="stylesheet">
+<style>
+    .container{
+        display: flex;
+        justify-content: center;
+    }
+    .todo::before{
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        z-index: -2;
+        border-radius: 50px;
+        opacity: 0.5;
+     background-image: url("./todo.png");
+      background-repeat: none;
+      background-size: contain;
+      
+    }
+    .todo{
+        position: relative;
+        z-index: 2;
+       min-height: 800px;
+       max-height:max-content;
+       width: 600px;
+       border: 2px solid black;
+       border-radius: 50px;
+      display: flex;
+      justify-content:center;
+    
+    }
+    .to{
+        width: 400px;
+    }
+    h6{
+        font-size: large;
+    }
+</style>
+<script>
+     let c=0;
+          let tick =0;
+     function addTask(){
+        let taskname = document.getElementById("task").value;
+        let tasks = document.getElementById("tasks")
+
+        if(taskname==""){
+            alert("Enter task");
+        }
+        else{
+        c+=1
+        let box = document.createElement("input")
+        box.type="checkbox"
+        box.style.display="inline-block"
+        box.style.height="20px"
+        tasks.appendChild(box)
+
+        let li=document.createElement("li")
+        li.style.margin="5px 5px"
+        li.innerText = taskname;
+        li.style.fontSize="30px"
+        li.style.fontWeight="bold"
+        li.style.display="inline-block"
+        tasks.appendChild(li)
+         
+         //total tasks
+     let total = document.getElementById("tot")
+     total.innerText=c;
+
+        let hr = document.createElement("hr")
+        hr.style.width="100%"
+        hr.style.backgroundColor="black"
+        hr.style.height="2px"
+        tasks.appendChild(hr)
+
+        let br = document.createElement("br")
+        tasks.appendChild(br)
+        
+        
+      box.onclick=function(){
+         let completed = document.getElementById("com")
+            li.style.textDecoration="line-through"
+             if(box.checked==false){
+        li.style.textDecoration="none";
+        tick-=1
+        completed.innerText = tick
+      }
+      else{
+        tick+=1
+          //tasks completed
+       completed.innerText = tick;
+      }  
+      }
+      
+        let e = document.createElement("button")
+        e.innerText="X"
+        e.style.margin="20px"
+        e.style.background="yellow"
+        e.style.cursor="pointer"
+        e.style.border="2px solid yellow"
+        li.appendChild(e);
+
+        e.onclick=function(){
+            li.remove();
+            box.remove();
+            br.remove();
+            hr.remove();
+            c-=1;
+        let completed = document.getElementById("com")
+        total.innerText=c;
+        if(tick==0){
+            completed.innerText=tick  
+        }
+        else{
+        tick-=1;
+       completed.innerText = tick;
+        }
+        }
+        }
+    }
+  function reset(){
+  let completed = document.getElementById("com")
+  let total = document.getElementById("tot")
+  document.getElementById("tasks").innerHTML=""
+  document.getElementById("task").value=""
+  c=0; tick=0;
+  total.innerText=0;
+  completed.innerText = 0;
+    }
+</script>
+</head>
+<body>
+<div class="container">
+<div class="todo">
+    <div class="to">
+<h1 style="font-family: Vast Shadow;">My Todo List</h1>
+<input type="text" name="" id="task" style="width: 300px; padding: 10px 20px;" placeholder="Enter Your tasks"><br><br>
+<ol id="tasks" >
+</ol>
+<button onclick="addTask()" id="btn" style="background-color: rgb(31, 240, 31); padding: 5px 10px; cursor: pointer; border: 2px solid rgb(31, 240, 31) ;">Add Task</button>
+<button id="reset" onclick="reset()" style="background-color: red; padding: 5px 10px; cursor: pointer; border: 2px solid red; margin-left: 20px;" >Reset</button>
+<br>
+<br>
+<h6>Total Tasks: <span id="tot"></span></h6>
+<h6>Completed tasks: <span id="com"></span></h6>
+</div>
+</div>
+</div>
+</body>
+</html>
